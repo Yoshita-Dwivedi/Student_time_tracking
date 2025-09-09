@@ -5,5 +5,3 @@ pandas
 streamlit
 onnxruntime
 pillow
-face_recognition_models
-dlib
