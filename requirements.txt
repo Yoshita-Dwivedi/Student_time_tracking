@@ -1,0 +1,9 @@
+opencv-python
+face_recognition
+numpy
+pandas
+streamlit
+onnxruntime
+pillow
+face_recognition_models
+dlib
