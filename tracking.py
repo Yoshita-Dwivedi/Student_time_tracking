@@ -77,7 +77,7 @@ def load_known_faces():
                                 "name" : name,
                                 "encodings": []
                             }
-                        st.session_state.known_students[student_id][encodings].append(encodings[0])
+                        st.session_state.known_students[student_id]['encodings'].append(encodings[0])
                 except Exception as e:
                    st.error(f"Error Processing {img_file} in {folder} : {e}")
     if not st.session_state.known_students:
@@ -184,6 +184,7 @@ class StudentTracker:
     def get_csv_data(self):
         session_start = st.session_state.session_start
         session_end = time.time()
+        time_ratio = 0.0
 
         session_start_dt = datetime.fromtimestamp(session_start)
         session_end_dt = datetime.fromtimestamp(session_end)
@@ -491,7 +492,7 @@ def main():
                         encodings = student_data["encodings"]
                     
                         distances = face_recognition.face_distance(
-                            encodings, face_encodings
+                            encodings, current_encoding
                         )
                         if len(distances) == 0:
                             continue
