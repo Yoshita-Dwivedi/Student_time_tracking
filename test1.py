@@ -249,7 +249,7 @@ def main():
 
     # Sidebar for controls
     with st.sidebar:
-        st.image("https://placehold.co/150x150/000000/FFFFFF?text=College+Logo", caption="College Logo", use_column_width=True)
+        st.image("https://placehold.co/150x150/000000/FFFFFF?text=College+Logo", caption="College Logo", use_container_width=True)
         st.header("Session Controls")
 
         # Session timer display
@@ -266,10 +266,15 @@ def main():
         if st.button("Reload Student Faces", use_container_width=True):
             load_known_faces()
             st.success("Student faces reloaded!")
+        
+        # Show Student List button
+        if st.button("Show Student List", use_container_width=True):
+            st.session_state.page = "student_list"
+            st.rerun()
 
         # Upload multiple images for one student at once
         uploaded_files = st.file_uploader(
-            "Upload multiple images for a student (e.g., 001_Edward_Stien_1.jpg)",
+            "Upload multiple images for a student (e.g. 01_edward.jpg)",
             accept_multiple_files=True,
         )
 
@@ -279,14 +284,14 @@ def main():
                 name_id = os.path.splitext(filename)[0]  # Remove Extension
                 parts = name_id.split("_")
 
-                if len(parts) < 3:
-                    st.error(
-                        f"Invalid filename: {filename}. Format must be like 001_Edward_Stien_1.jpg"
-                    )
-                    continue
+                # if len(parts) < 3:
+                #     st.error(
+                #         f"Invalid filename: {filename}. Format must be like 001_Edward_Stien_1.jpg"
+                #     )
+                #     continue
 
                 student_id = parts[0]
-                full_name = "_".join(parts[1:-1])  # All parts except ID and index
+                full_name = "_".join(parts[1:])  
                 folder_name = f"{student_id}_{full_name.replace(' ', '_')}"  # Folder = 001_EdwardStein (optional)
 
                 student_dir = os.path.join(KNOWN_FACES_DIR, folder_name)
@@ -309,6 +314,7 @@ def main():
                 st.success(f"Saved: {folder_name}/{new_filename}")
 
             load_known_faces()
+            st.rerun()
 
     st.divider()
 
@@ -351,14 +357,14 @@ def main():
 
     st.divider()
     
-    # Display Known Students
-    st.subheader("Registered Students")
+    # # Display Known Students
+    # st.subheader("Registered Students")
 
-    if st.session_state.known_students:
-        for student_id, student_data in st.session_state.known_students.items():
-            st.markdown(f"**{student_data['name']}** (ID: {student_id})")
-    else:
-        st.info("No Students registered yet")
+    # if st.session_state.known_students:
+    #     for student_id, student_data in st.session_state.known_students.items():
+    #         st.markdown(f"**{student_data['name']}** (ID: {student_id})")
+    # else:
+    #     st.info("No Students registered yet")
 
     # Main Content Area
     col1, col2 = st.columns([2,1])
@@ -553,10 +559,10 @@ def main():
 
             if st.session_state.known_students:
                 st.subheader("Ready to Track")
-                st.markdown("The Following Students are Registered:")
+                # st.markdown("The Following Students are Registered:")
 
-                for student_id, student in st.session_state.known_students.items():
-                    st.markdown(f"- **{student['name']}** (ID: {student_id})")
+                # for student_id, student in st.session_state.known_students.items():
+                #     st.markdown(f"- **{student['name']}** (ID: {student_id})")
 
             else:
                 st.warning('No student faces availbale. Add images using the sidebar.')
